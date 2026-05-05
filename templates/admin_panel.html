@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Админ-панель</h2>
+<a href="/tasks/create">Создать задачу</a>
+<table>
+    <thead><tr><th>ID</th><th>Название</th><th>Статус</th><th>Исполнитель</th><th>Действия</th></tr></thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr {% if not task.is_active %}class="inactive-row"{% endif %}>
+            <td>{{ task.id }}</td>
+            <td>{{ task.name }}</td>
+            <td>{% if task.is_active %}Активна{% else %}Неактивна{% endif %}</td>
+            <td>{% if task.worker_id %}Занято{% else %}-{% endif %}</td>
+            <td>
+                <a href="/tasks/edit/{{ task.id }}">✏️</a>
+                {% if task.is_active %}
+                    <a href="/tasks/deactivate/{{ task.id }}">🔴 Деакт</a>
+                {% else %}
+                    <a href="/tasks/activate/{{ task.id }}">🟢 Акт</a>
+                {% endif %}
+                <a href="/tasks/delete/{{ task.id }}" onclick="return confirm('Удалить?')">🗑️</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
