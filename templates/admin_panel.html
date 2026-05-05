@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Админ-панель{% endblock %}
+
+{% block content %}
+<h2 class="page-title">👑 Панель администратора</h2>
+<p class="page-subtitle">Управление всеми задачами (включая неактивные). Удаление из БД недоступно - только деактивация.</p>
+
+<div style="margin-bottom: 20px;">
+    <a href="/tasks/create" class="btn btn-success">➕ Создать новую задачу</a>
+</div>
+
+<div style="overflow-x: auto;">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Исполнитель</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Активная задача -->
+            <tr>
+                <td>1</td>
+                <td>Оптимизация запросов к БД</td>
+                <td>Найти и исправить медленные JOIN запросы</td>
+                <td>2025-04-01</td>
+                <td><span class="badge badge-active">✅ Активна</span></td>
+                <td>-</td>
+                <td class="admin-actions">
+                    <a href="/tasks/edit/1" class="btn btn-warning">✏️ Редактировать</a>
+                    <button class="btn btn-danger" onclick="deactivateTask(1)">🔴 Деактивировать</button>
+                </td>
+            </tr>
+            <!-- Активная занятая задача -->
+            <tr>
+                <td>2</td>
+                <td>Рефакторинг модуля аутентификации</td>
+                <td>Переписать на FastAPI</td>
+                <td>2025-03-15</td>
+                <td><span class="badge badge-active">✅ Активна</span></td>
+                <td><span class="badge badge-taken">Иван Петров</span></td>
+                <td class="admin-actions">
+                    <a href="/tasks/edit/2" class="btn btn-warning">✏️ Редактировать</a>
+                    <button class="btn btn-danger" onclick="deactivateTask(2)">🔴 Деактивировать</button>
+                </td>
+            </tr>
+            <!-- Неактивная задача (мягкое удаление) -->
+            <tr class="inactive-row">
+                <td>3</td>
+                <td>Старая задача на Go (архив)</td>
+                <td>Переписать микросервис</td>
+                <td>2024-10-01</td>
+                <td><span class="badge badge-inactive">⚫ Неактивна</span></td>
+                <td>Архивировано</td>
+                <td class="admin-actions">
+                    <a href="/tasks/edit/3" class="btn btn-warning">✏️ Редактировать</a>
+                    <button class="btn btn-success" onclick="activateTask(3)">🟢 Активировать</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="info-panel">
+    💡 <strong>Информация:</strong> При деактивации задача остается в базе данных, меняется только флаг is_active=False.
+    Пользователи не видят неактивные задачи на главной странице.
+</div>
+
+<script>
+    function deactivateTask(taskId) {
+        if(confirm('Деактивировать задачу #' + taskId + '?\nЗадача останется в БД, но станет невидимой для пользователей.')) {
+            alert('(Заглушка) Задача #' + taskId + ' деактивирована. Флаг is_active = False');
+        }
+    }
+    
+    function activateTask(taskId) {
+        if(confirm('Активировать задачу #' + taskId + '?')) {
+            alert('(Заглушка) Задача #' + taskId + ' активирована. is_active = True');
+        }
+    }
+</script>
+{% endblock %}

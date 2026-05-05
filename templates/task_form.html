@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if task_id %}Редактирование задачи #{{ task_id }}{% else %}Создание задачи{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2 class="page-title">
+        {% if task_id %}✏️ Редактирование задачи #{{ task_id }}{% else %}➕ Создание новой задачи{% endif %}
+    </h2>
+    
+    <form action="/tasks/save" method="post">
+        <div class="form-group">
+            <label>Название задачи *</label>
+            <input type="text" name="title" value="{% if task_id %}Оптимизация запросов к БД{% endif %}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Описание</label>
+            <textarea name="description">{% if task_id %}Найти и исправить медленные JOIN запросы, добавить индексы{% endif %}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Дата создания</label>
+            <input type="date" name="created_date" value="2025-04-01">
+        </div>
+
+        <div class="form-group">
+            <label>Активна до (дедлайн)</label>
+            <input type="date" name="deadline" value="2025-06-01">
+        </div>
+
+        <div class="form-group checkbox-group">
+            <input type="checkbox" name="is_active" id="is_active" {% if not task_id or task_id != 3 %}checked{% endif %}>
+            <label for="is_active" style="margin:0;">Задача активна (пользователи видят)</label>
+        </div>
+
+        <div class="form-group">
+            <label>Назначить исполнителю (логин)</label>
+            <input type="text" name="assigned_to" placeholder="оставьте пустым если свободно" 
+                   value="{% if task_id == 2 %}Иван Петров{% endif %}">
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="submit" class="btn btn-success">💾 Сохранить</button>
+            <a href="/admin" class="btn btn-secondary">❌ Отмена</a>
+        </div>
+    </form>
+
+    <div class="info-panel" style="margin-top: 20px;">
+        ⚠️ <strong>Внимание:</strong> При деактивации (снятии галочки "Активна") задача не удаляется из БД, а переводится в неактивное состояние.
+    </div>
+</div>
+{% endblock %}
