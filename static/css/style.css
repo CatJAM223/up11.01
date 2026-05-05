@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #636a88);
     min-height: 100vh;
     padding: 20px;
 }
@@ -14,15 +14,15 @@ body {
 .container {
     max-width: 1400px;
     margin: 0 auto;
-    background: white;
+    background: rgb(255, 255, 255);
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     overflow: hidden;
 }
 
 .header {
-    background: #2c3e50;
-    color: white;
+    background: #35414e;
+    color: rgb(255, 255, 255);
     padding: 20px 30px;
     display: flex;
     justify-content: space-between;
@@ -42,7 +42,7 @@ body {
 }
 
 .nav a {
-    color: white;
+    color: rgb(255, 255, 255);
     text-decoration: none;
     padding: 8px 16px;
     border-radius: 8px;
@@ -50,7 +50,7 @@ body {
 }
 
 .nav a:hover {
-    background: #34495e;
+    background: #050505;
 }
 
 .content {
@@ -70,7 +70,7 @@ body {
 }
 
 .btn-primary {
-    background: #3498db;
+    background: #6c7c94;
     color: white;
 }
 
@@ -80,21 +80,21 @@ body {
 }
 
 .btn-success {
-    background: #27ae60;
+    background: #4c6d5a;
     color: white;
 }
 
 .btn-success:hover {
-    background: #229954;
+    background: #438d68;
 }
 
 .btn-warning {
-    background: #f39c12;
+    background: #4c6d5a;
     color: white;
 }
 
 .btn-warning:hover {
-    background: #e67e22;
+    background: #317a58;
 }
 
 .btn-danger {
@@ -107,7 +107,7 @@ body {
 }
 
 .btn-secondary {
-    background: #95a5a6;
+    background: #4c6d5a;
     color: white;
 }
 
