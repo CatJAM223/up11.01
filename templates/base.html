@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TaskManager{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="header-left">
+                <h1>📋 TaskManager</h1>
+            </div>
+            <div class="header-right">
+                {% if session.user_id %}
+                    {% if session.role == 'admin' %}
+                        <a href="/admin" class="nav-link">Панель управления</a>
+                        <a href="/tasks/create" class="nav-link">Создать задачу</a>
+                    {% else %}
+                        <a href="/" class="nav-link">Задачи</a>
+                    {% endif %}
+                    <span class="user-name">{{ session.role }}: {{ session.user_id }}</span>
+                    <a href="/logout" class="nav-link logout">Выйти</a>
+                {% else %}
+                    <a href="/login" class="nav-link">Вход</a>
+                    <a href="/register" class="nav-link">Регистрация</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for cat, msg in messages %}
+                        <div class="alert alert-{{ cat }}">{{ msg }}</div>
+                    {% endfor %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>TaskManager — управление задачами для разработчиков</p>
+        </footer>
+    </div>
+</body>
+</html>

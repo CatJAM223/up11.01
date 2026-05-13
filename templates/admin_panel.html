@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Административная панель</h2>
+    <a href="/tasks/create" class="btn btn-primary">+ Новая задача</a>
+</div>
+
+<div class="admin-stats">
+    <div class="stat-card">
+        <div class="stat-number">{{ tasks|length }}</div>
+        <div class="stat-label">Всего задач</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ tasks|selectattr('is_active', 'equalto', true)|list|length }}</div>
+        <div class="stat-label">Активных</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ tasks|selectattr('is_active', 'equalto', false)|list|length }}</div>
+        <div class="stat-label">Неактивных</div>
+    </div>
+</div>
+
+<div class="tasks-list">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Статус</th>
+                <th>Исполнитель</th>
+                <th>Дата</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr class="{% if not task.is_active %}inactive-row{% endif %}">
+                <td>{{ task.id }}</td>
+                <td>{{ task.name }}</td>
+                <td>
+                    {% if task.is_active %}
+                        <span class="badge badge-active">Активна</span>
+                    {% else %}
+                        <span class="badge badge-inactive">Неактивна</span>
+                    {% endif %}
+                </td>
+                <td>{% if task.worker_id %}Занята{% else %}—{% endif %}</td>
+                <td>{{ task.date }}</td>
+                <td class="actions">
+                    <a href="/tasks/edit/{{ task.id }}" class="btn btn-sm btn-warning">Ред.</a>
+                    {% if task.is_active %}
+                        <a href="/tasks/deactivate/{{ task.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Деактивировать задачу?')">Деакт.</a>
+                    {% else %}
+                        <a href="/tasks/activate/{{ task.id }}" class="btn btn-sm btn-success" onclick="return confirm('Активировать задачу?')">Акт.</a>
+                    {% endif %}
+                    <a href="/tasks/delete/{{ task.id }}" class="btn btn-sm btn-dark" onclick="return confirm('Удалить навсегда?')">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
