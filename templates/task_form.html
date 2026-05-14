@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-box">
+    <h2>{% if task %}Редактирование задачи{% else %}Новая задача{% endif %}</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label>Название задачи</label>
+            <input type="text" name="name" value="{{ task.name if task else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label>Описание</label>
+            <textarea name="description" rows="5">{{ task.description if task else '' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Дедлайн</label>
+            <input type="date" name="deadline" value="{{ task.deadline if task else '' }}">
+        </div>
+        <div class="form-group checkbox">
+            <label>
+                <input type="checkbox" name="is_active" {% if not task or task.is_active %}checked{% endif %}>
+                Задача активна
+            </label>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="/admin" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
