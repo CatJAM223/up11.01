@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TaskManager{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="header-left">
+                <a href="{{ url_for('user.view') }}" class="nav-link">TaskManager</a>
+            </div>
+            <div class="header-right">
+                {% if session.user_id %}
+                    {% if session.role == 'admin' %}
+                        <a href="{{ url_for('admin.admin_panel') }}" class="nav-link">Панель управления</a>
+                        <a href="{{ url_for('tasks.create') }}" class="nav-link">Создать задачу</a>
+                    {% else %}
+                        <a href="{{ url_for('user.view') }}" class="nav-link">Задачи</a>
+                    {% endif %}
+                    <span class="user-name">{{ session.role }}: {{ session.user_id }}</span>
+                    <a href="{{ url_for('auth.logout') }}" class="nav-link logout">Выйти</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="nav-link">Вход</a>
+                    <a href="{{ url_for('auth.register') }}" class="nav-link">Регистрация</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for cat, msg in messages %}
+                    {% endfor %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>TaskManager — управление задачами для разработчиков</p>
+        </footer>
+    </div>
+</body>
+</html>
