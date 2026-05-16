@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Доступные задачи</h2>
+</div>
+
+<div class="tasks-list">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Дедлайн</th>
+                <th>Дата создания</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td><strong>{{ task.name }}</strong></td>
+                <td>{{ task.description[:100] if task.description else '—' }}{% if task.description and task.description|length > 100 %}...{% endif %}</td>
+                <td>{{ task.deadline if task.deadline else '—' }}</td>
+                <td>{{ task.date_task }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('tasks.apply', task_id=task.id) }}">
+                        <button type="submit" class="btn btn-sm btn-success" {% if task.worker_id %}disabled{% endif %}>
+                            {% if task.worker_id %}Уже занята{% else %}Откликнуться{% endif %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Нет доступных задач</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

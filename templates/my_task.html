@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Моя задача</h2>
+</div>
+
+{% if task %}
+<div class="task-details">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{ task.name }}</h3>
+            
+            <div class="task-info">
+                <p><strong>Описание:</strong></p>
+                <p class="task-description">{{ task.description if task.description else 'Нет описания' }}</p>
+            </div>
+            
+            <div class="task-meta">
+                <p><strong>Дата создания:</strong> {{ task.date_task }}</p>
+                {% if task.deadline %}
+                <p><strong>Дедлайн:</strong> {{ task.deadline }}</p>
+                {% else %}
+                <p><strong>Дедлайн:</strong> Не указан</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="no-task">
+    <div class="alert alert-info">
+        <p>У вас пока нет назначенных задач.</p>
+        <a href="{{ url_for('tasks.list') }}" class="btn btn-primary">Перейти к доступным задачам</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
